@@ -1,3 +1,4 @@
+/* In-text suggestion element */
 quill-lt-match {
   border-bottom: #ff6a6a solid 3px;
 }
@@ -6,6 +7,7 @@ quill-lt-match:hover {
   cursor: pointer;
 }
 
+/* Popup */
 .quill-lt-match-popup {
   isolation: isolate;
 
@@ -82,6 +84,7 @@ quill-lt-match:hover {
   color: #999;
 }
 
+/* Loading indicator in editor */
 .quill-lt-loading-indicator {
   position: absolute;
   bottom: 3px;

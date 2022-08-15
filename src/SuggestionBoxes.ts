@@ -1,25 +1,70 @@
 import debug from "./debug";
 import Delta from "quill-delta";
+import type Quill from "quill";
 import { QuillLanguageTool } from "./QuillLanguageTool";
-import { MatchesEntity } from "./types";
 
+/**
+ * Clean all suggestion boxes from an HTML string
+ *
+ * @param html HTML to clean
+ * @returns Cleaned text
+ */
+export function getCleanedHtml(html: string) {
+  return html.replace(/<quill-lt-match .*>(.*)?<\/quill-lt-match>/g, "$1");
+}
+
+/**
+ * Remove all suggestion boxes from the editor.
+ */
+export function removeSuggestionBoxes(quillEditor: Quill) {
+  debug("Removing suggestion boxes for editor", quillEditor);
+
+  const initialSelection = quillEditor.getSelection();
+  const deltas = quillEditor.getContents();
+
+  const deltasWithoutSuggestionBoxes = deltas.ops.map((delta) => {
+    if (delta.attributes && delta.attributes.ltmatch) {
+      return {
+        ...delta,
+        attributes: {
+          ...delta.attributes,
+          ltmatch: null,
+        },
+      };
+    }
+    return delta;
+  });
+
+  // @ts-ignore
+  quillEditor.setContents(new Delta(deltasWithoutSuggestionBoxes));
+
+  if (initialSelection) {
+    quillEditor.setSelection(initialSelection);
+  }
+}
+
+/**
+ * Manager for the suggestion boxes.
+ * This handles inserting and removing suggestion box elements from the editor.
+ */
 export class SuggestionBoxes {
   constructor(private readonly parent: QuillLanguageTool) {}
 
+  /**
+   * Remove all suggestion boxes from the editor.
+   */
   public removeSuggestionBoxes() {
-    debug("Removing suggestion boxes for editor", this.parent.quill);
-
-    const html = this.parent.quill.root.innerHTML;
-    const cleanedHtml = this.getCleanedHtml(html);
-    this.replaceEditorHtml(cleanedHtml);
+    this.parent.preventLoop();
+    removeSuggestionBoxes(this.parent.quill);
   }
 
-  public getCleanedHtml(html: string) {
-    return html.replace(/<quill-lt-match .*>(.*)?<\/quill-lt-match>/g, "$1");
-  }
-
-  public addSuggestionBoxes(matches: MatchesEntity[]) {
-    matches.forEach((match) => {
+  /**
+   * Insert a suggestion box into the editor.
+   *
+   * This uses the matches stored in the parent class
+   */
+  public addSuggestionBoxes() {
+    this.parent.matches.forEach((match) => {
       this.parent.preventLoop();
 
       const ops = new Delta()
@@ -30,17 +75,5 @@ export class SuggestionBoxes {
 
       debug("Adding formatter", "lt-match", match.offset, match.length);
     });
-  }
-
-  private replaceEditorHtml(html: string) {
-    debug("Replacing editor html with", html);
-
-    const initialSelection = this.parent.quill.getSelection();
-    this.parent.preventLoop();
-    this.parent.quill.clipboard.dangerouslyPasteHTML(html);
-
-    if (initialSelection) {
-      this.parent.quill.setSelection(initialSelection);
-    }
   }
 }

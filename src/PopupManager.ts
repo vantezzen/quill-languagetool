@@ -3,6 +3,12 @@ import raw from "nanohtml/raw";
 import { QuillLanguageTool } from "./QuillLanguageTool";
 import { MatchesEntity } from "./types";
 
+/**
+ * Manager for popups.
+ *
+ * This handles opening and closing suggestion popups in the editor
+ * when a suggestion is selected.
+ */
 export default class PopupManager {
   private openPopup?: HTMLElement;
 

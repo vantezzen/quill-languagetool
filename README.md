@@ -4,6 +4,14 @@
 
 [![NPM](https://img.shields.io/npm/v/quill-languagetool.svg)](https://www.npmjs.com/package/quill-languagetool) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 
+This library adds a [LanguageTool](https://languagetool.org/) integration to Quill.js editors. This allows adding spell checking and grammar checking to your editor.
+
+## Demo
+
+![Example video](./assets/quill-lt-example.mp4)
+
+A live demo can be found at <https://vantezzen.github.io/quill-languagetool>. The source code for a complete example with react-quill can be found in `/example`.
+
 ## Install
 
 ```bash
@@ -13,14 +21,120 @@ npm install --save quill-languagetool
 ## Usage
 
 ```tsx
-import * as React from "react";
+import Quill from "quill";
+import registerQuillLanguageTool from "quill-languagetool";
 
-import { useMyHook } from "quill-languagetool";
+registerQuillLanguageTool(Quill);
 
-const Example = () => {
-  const example = useMyHook();
-  return <div>{example}</div>;
-};
+const quill = new Quill("#editor", {
+  theme: "snow",
+  modules: {
+    languageTool: true,
+    // OR
+    languageTool: {
+      // options here
+    },
+  },
+});
+```
+
+Using this module **will change** the contents of the editor to add control elements for spell checking and grammar checking. You can use the `getContents()` and `setContents()` methods to get and set the contents of the editor.
+
+### registerQuillLanguageTool(Quill)
+
+This package exports a default function to register the LanguageTool module to Quill.js.
+
+```tsx
+import Quill from "quill";
+import registerQuillLanguageTool from "quill-languagetool";
+
+registerQuillLanguageTool(Quill);
+```
+
+This adds the LanguageTool module and the suggestion blot element to Quill.js so they can be used on any editor using that Quill import.
+
+### Options
+
+Options can be provided into the `languageTool` option of the Quill module.
+
+```tsx
+const quill = new Quill("#editor", {
+  theme: "snow",
+  modules: {
+    languageTool: {
+      // options here
+    },
+  },
+});
+```
+
+Available options are:
+
+- `server` (default `"https://languagetool.org/api"`): The URL of the LanguageTool server without `/v2/check`
+- `language` (default `"en-US"`): The language to use for the LanguageTool server
+- `disableNativeSpellcheck` (default `true`): Disable the native spellchecker on the editor to prevent two conflicting systems trying to underline the same words
+- `cooldownTime` (default `3000`): The time after a user stops typing before the LanguageTool server is queried
+- `showLoadingIndicator` (default `true`): Show a loading indicator when the LanguageTool server is queried in the bottom right corner of the editor
+
+### Server
+
+By default, the official LanguageTool server is used. Please note that you may be rate-limited when using the server and you need to comply with LanguageTool's [ProofReading API Terms](https://dev.languagetool.org/public-http-api).
+
+If you plan on using the library for larger sites, please consider using your own server. Check out <https://github.com/smarketer-de/languagetool-docker-compose> for an easy-to-use LanguageTool setup for Docker and AWS Elastic Beanstalk.
+
+### cooldownTime
+
+To prevent spamming the LanguageTool server, a cooldown time is used. By default, this is set to 3000 milliseconds so the server is queries only once the user stopped typing 3s ago.
+
+### Getting the contents of the editor
+
+This library adds a custom blot element to the editor that is used to add formatting and click listeners.
+This transforms content like this:
+
+```html
+<p>This text conatins typos,, that should get corrected by LanguageTool</p>
+```
+
+into this:
+
+```html
+<p>
+  This text
+  <quill-lt-match
+    data-offset="10"
+    data-length="8"
+    data-rule-id="MORFOLOGIK_RULE_EN_US"
+  >
+    conatins
+  </quill-lt-match>
+  typos
+  <quill-lt-match
+    data-offset="24"
+    data-length="2"
+    data-rule-id="DOUBLE_PUNCTUATION"
+  >
+    ,,
+  </quill-lt-match>
+  that should get corrected by LanguageTool
+</p>
+```
+
+When getting the contents of the editor, the custom blot elements need to be removed. For this, the library exposes a `getCleanedHtml` method that removes the elements from an HTML string.
+
+```tsx
+import { getCleanedHtml } from "quill-languagetool";
+
+const dirtyContents = quill.root.innerHTML;
+const cleanedContents = getCleanedHtml(quillHtml);
+```
+
+Alternatively, `removeSuggestionBoxes` can be used to remove the custom blot elements from the editor's content itself. Please note that this will trigger an update of the editor which will re-trigger the module to add them back again.
+
+```tsx
+import { removeSuggestionBoxes } from "quill-languagetool";
+
+const quill = new Quill(...);
+removeSuggestionBoxes(quill);
 ```
 
 ## Development
