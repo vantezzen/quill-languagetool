@@ -1,0 +1,25 @@
+{
+  "files": {
+    "main.css": "/quill-languagetool/static/css/main.2c6a48fe.chunk.css",
+    "main.js": "/quill-languagetool/static/js/main.4d10ea56.chunk.js",
+    "main.js.map": "/quill-languagetool/static/js/main.4d10ea56.chunk.js.map",
+    "runtime-main.js": "/quill-languagetool/static/js/runtime-main.8c8c23e1.js",
+    "runtime-main.js.map": "/quill-languagetool/static/js/runtime-main.8c8c23e1.js.map",
+    "static/css/2.ad76a385.chunk.css": "/quill-languagetool/static/css/2.ad76a385.chunk.css",
+    "static/js/2.810f1264.chunk.js": "/quill-languagetool/static/js/2.810f1264.chunk.js",
+    "static/js/2.810f1264.chunk.js.map": "/quill-languagetool/static/js/2.810f1264.chunk.js.map",
+    "index.html": "/quill-languagetool/index.html",
+    "precache-manifest.5ce4a9969e416e02f7655ff94917deea.js": "/quill-languagetool/precache-manifest.5ce4a9969e416e02f7655ff94917deea.js",
+    "service-worker.js": "/quill-languagetool/service-worker.js",
+    "static/css/2.ad76a385.chunk.css.map": "/quill-languagetool/static/css/2.ad76a385.chunk.css.map",
+    "static/css/main.2c6a48fe.chunk.css.map": "/quill-languagetool/static/css/main.2c6a48fe.chunk.css.map",
+    "static/js/2.810f1264.chunk.js.LICENSE.txt": "/quill-languagetool/static/js/2.810f1264.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.8c8c23e1.js",
+    "static/css/2.ad76a385.chunk.css",
+    "static/js/2.810f1264.chunk.js",
+    "static/css/main.2c6a48fe.chunk.css",
+    "static/js/main.4d10ea56.chunk.js"
+  ]
+}
