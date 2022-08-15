@@ -8,9 +8,18 @@ This library adds a [LanguageTool](https://languagetool.org/) integration to Qui
 
 ## Demo
 
-![Example video](https://github.com/vantezzen/quill-languagetool/raw/master/assets/quill-lt-example.gif)
+![Example video](https://raw.githubusercontent.com/vantezzen/quill-languagetool/master/assets/quill-lt-example.gif)
 
 A live demo can be found at <https://vantezzen.github.io/quill-languagetool>. The source code for a complete example with react-quill can be found in `/example`.
+
+## Features
+
+- [x] LanguageTool integration
+- [x] TypeScript typed
+- [x] Easy integration with Quill.js
+- [x] Custom server support
+- [x] Custom CSS support
+- [x] Server spam prevention
 
 ## Install
 
@@ -38,7 +47,7 @@ const quill = new Quill("#editor", {
 });
 ```
 
-Using this module **will change** the contents of the editor to add control elements for spell checking and grammar checking. You can use the `getContents()` and `setContents()` methods to get and set the contents of the editor.
+Using this module **will change** the contents of the editor to add control elements for spell checking and grammar checking. Look at ["Getting the contents of the editor"](#getting-the-contents-of-the-editor) for information on how to use the contents of the editor.
 
 ### registerQuillLanguageTool(Quill)
 
@@ -136,6 +145,10 @@ import { removeSuggestionBoxes } from "quill-languagetool";
 const quill = new Quill(...);
 removeSuggestionBoxes(quill);
 ```
+
+### Customizing design
+
+By default, the library uses a simple, light-mode design for the suggestion boxes. By overriding the CSS classes used you can customize the design. Take a look at [`/src/QuillLanguageTool.css`](https://github.com/vantezzen/quill-languagetool/blob/master/src/QuillLanguageTool.css) for all styles and classes used by the default design
 
 ## Development
 

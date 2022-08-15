@@ -1,6 +1,6 @@
 {
   "name": "quill-languagetool",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "LanguageTool integration for Quill.js editors",
   "author": "vantezzen",
   "license": "MIT",
