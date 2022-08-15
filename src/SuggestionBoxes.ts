@@ -1,7 +1,7 @@
 import debug from "./debug";
 import Delta from "quill-delta";
 import type Quill from "quill";
-import { QuillLanguageTool } from "./QuillLanguageTool";
+import { QuillLanguageTool } from ".";
 
 /**
  * Clean all suggestion boxes from an HTML string

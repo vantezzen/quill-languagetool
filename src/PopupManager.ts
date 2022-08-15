@@ -1,6 +1,6 @@
 import html from "nanohtml/lib/browser";
 import raw from "nanohtml/raw";
-import { QuillLanguageTool } from "./QuillLanguageTool";
+import { QuillLanguageTool } from ".";
 import { MatchesEntity } from "./types";
 
 /**

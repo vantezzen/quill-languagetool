@@ -1,4 +1,4 @@
-import { QuillLanguageTool } from "./QuillLanguageTool";
+import { QuillLanguageTool } from ".";
 import html from "nanohtml/lib/browser";
 
 /**
