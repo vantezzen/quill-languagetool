@@ -8,7 +8,7 @@ This library adds a [LanguageTool](https://languagetool.org/) integration to Qui
 
 ## Demo
 
-![Example video](./assets/quill-lt-example.mp4)
+![Example video](https://github.com/vantezzen/quill-languagetool/raw/master/assets/quill-lt-example.gif)
 
 A live demo can be found at <https://vantezzen.github.io/quill-languagetool>. The source code for a complete example with react-quill can be found in `/example`.
 
