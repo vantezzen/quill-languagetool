@@ -5,10 +5,11 @@
   "license": "MIT",
   "private": true,
   "dependencies": {
+    "quill-languagetool": "file:..",
     "react": "file:../node_modules/react",
     "react-dom": "^16.9.0",
-    "react-scripts": "^3.0.1",
-    "quill-languagetool": "file:.."
+    "react-quill": "^2.0.0",
+    "react-scripts": "^3.0.1"
   },
   "scripts": {
     "start": "react-scripts start",

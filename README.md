@@ -13,19 +13,21 @@ npm install --save quill-languagetool
 ## Usage
 
 ```tsx
-import * as React from 'react'
+import * as React from "react";
 
-import { useMyHook } from 'quill-languagetool'
+import { useMyHook } from "quill-languagetool";
 
 const Example = () => {
-  const example = useMyHook()
-  return (
-    <div>
-      {example}
-    </div>
-  )
-}
+  const example = useMyHook();
+  return <div>{example}</div>;
+};
 ```
+
+## Development
+
+1. Clone this repository
+2. Run `npm install` in the root directory and `/example` (`npm i && cd example && npm i`)
+3. Run `npm start` in `/example` to start development using the example project
 
 ## License
 
@@ -33,4 +35,4 @@ MIT © [vantezzen](https://github.com/vantezzen)
 
 ---
 
-This hook is created using [create-react-hook](https://github.com/hermanya/create-react-hook).
+This project is created using [create-react-hook](https://github.com/hermanya/create-react-hook).

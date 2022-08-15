@@ -1,13 +1,22 @@
-import React from 'react'
+import React, { useState } from "react";
+import ReactQuill, { Quill } from "react-quill";
+import "react-quill/dist/quill.snow.css";
+import registerQuillLanguageTool from "quill-languagetool";
 
-import { useMyHook } from 'quill-languagetool'
+registerQuillLanguageTool(Quill);
+const modules = {
+  languageTool: true,
+};
 
 const App = () => {
-  const example = useMyHook()
+  const [value, setValue] = useState("");
   return (
-    <div>
-      {example}
-    </div>
-  )
-}
-export default App
+    <ReactQuill
+      theme="snow"
+      value={value}
+      onChange={setValue}
+      modules={modules}
+    />
+  );
+};
+export default App;
