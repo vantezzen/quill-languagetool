@@ -12,8 +12,6 @@ quill-lt-match:hover {
   isolation: isolate;
 
   position: absolute;
-  top: 0;
-  left: 0;
   background-color: #fff;
   border: 1px solid #ccc;
   border-radius: 3px;
@@ -31,9 +29,7 @@ quill-lt-match:hover {
 }
 
 .quill-lt-match-popup-close {
-  position: absolute;
-  top: 0;
-  right: 0.5rem;
+  float: right;
   padding: 0.5rem;
   cursor: pointer;
   background-color: transparent;
