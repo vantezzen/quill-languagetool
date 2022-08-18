@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/quill-languagetool/precache-manifest.5ce4a9969e416e02f7655ff94917deea.js"
+  "/quill-languagetool/precache-manifest.42e1ca4bd617c5ceea2e1bc5e4acf57c.js"
 );
 
 self.addEventListener('message', (event) => {

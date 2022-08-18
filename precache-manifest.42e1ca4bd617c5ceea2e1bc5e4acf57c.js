@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "69dac2aae9c7bc1aac08b97ffaa94b72",
+    "revision": "2f8882976e79f9166f7c098c0b30fffa",
     "url": "/quill-languagetool/index.html"
   },
   {
@@ -8,7 +8,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/quill-languagetool/static/css/2.ad76a385.chunk.css"
   },
   {
-    "revision": "c6d945aa3ee8ce024532",
+    "revision": "6f67f999431a215e1a13",
     "url": "/quill-languagetool/static/css/main.2c6a48fe.chunk.css"
   },
   {
@@ -20,8 +20,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/quill-languagetool/static/js/2.810f1264.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "c6d945aa3ee8ce024532",
-    "url": "/quill-languagetool/static/js/main.4d10ea56.chunk.js"
+    "revision": "6f67f999431a215e1a13",
+    "url": "/quill-languagetool/static/js/main.2f40acac.chunk.js"
   },
   {
     "revision": "1e0ac042d79c1cdbecd5",
