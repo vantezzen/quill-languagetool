@@ -84,6 +84,8 @@ Available options are:
 - `disableNativeSpellcheck` (default `true`): Disable the native spellchecker on the editor to prevent two conflicting systems trying to underline the same words
 - `cooldownTime` (default `3000`): The time after a user stops typing before the LanguageTool server is queried
 - `showLoadingIndicator` (default `true`): Show a loading indicator when the LanguageTool server is queried in the bottom right corner of the editor
+- `apiOptions` (default `{}`): Options to pass to the LanguageTool server (e.g. API Key, disabled rules, picky level etc.). Take a look at https://languagetool.org/http-api/#!/default/post_check for all options.
+  - Do not set `text`, `data` or `language` in the `apiOptions` as these are set automatically.
 
 ### Server
 

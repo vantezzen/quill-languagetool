@@ -5,7 +5,11 @@ import registerQuillLanguageTool from "quill-languagetool";
 
 registerQuillLanguageTool(Quill);
 const modules = {
-  languageTool: true,
+  languageTool: {
+    apiOptions: {
+      level: "picky",
+    },
+  },
 };
 
 const App = () => {

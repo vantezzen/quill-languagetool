@@ -4,7 +4,7 @@ import { SuggestionBoxes } from "./SuggestionBoxes";
 import "./QuillLanguageTool.css";
 import createSuggestionBlotForQuillInstance from "./SuggestionBlot";
 import PopupManager from "./PopupManager";
-import { LanguageToolApi, MatchesEntity } from "./types";
+import { LanguageToolApi, LanguageToolApiParams, MatchesEntity } from "./types";
 import LoadingIndicator from "./LoadingIndicator";
 
 export type QuillLanguageToolParams = {
@@ -13,6 +13,7 @@ export type QuillLanguageToolParams = {
   disableNativeSpellcheck: boolean;
   cooldownTime: number;
   showLoadingIndicator: boolean;
+  apiOptions?: Partial<LanguageToolApiParams>;
 };
 
 /**
@@ -26,6 +27,7 @@ export class QuillLanguageTool {
     disableNativeSpellcheck: true,
     cooldownTime: 3000,
     showLoadingIndicator: true,
+    apiOptions: {},
   };
 
   protected typingCooldown?: NodeJS.Timeout;
@@ -102,6 +104,8 @@ export class QuillLanguageTool {
   }
 
   private async getLanguageToolResults() {
+    const params = this.getApiParams();
+
     try {
       const response = await fetch(this.params.server + "/v2/check", {
         method: "POST",
@@ -109,15 +113,25 @@ export class QuillLanguageTool {
           "Content-Type": "application/x-www-form-urlencoded",
         },
         mode: "cors",
-        body: `text=${encodeURIComponent(this.quill.getText())}&language=${
-          this.params.language
-        }`,
+        body: params,
       });
       const json = (await response.json()) as LanguageToolApi;
       return json;
     } catch (e) {
       return null;
     }
+  }
+
+  private getApiParams() {
+    const paramsObject = {
+      text: this.quill.getText(),
+      language: this.params.language,
+      ...this.params.apiOptions,
+    };
+
+    return Object.keys(paramsObject)
+      .map((key) => `${key}=${encodeURIComponent(paramsObject[key])}`)
+      .join("&");
   }
 
   public preventLoop() {
