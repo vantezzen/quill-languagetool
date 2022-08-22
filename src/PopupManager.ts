@@ -1,3 +1,4 @@
+import { createPopper } from "@popperjs/core";
 import html from "nanohtml/lib/browser";
 import raw from "nanohtml/raw";
 import { QuillLanguageTool } from ".";
@@ -62,8 +63,6 @@ export default class PopupManager {
     }
     this.currentSuggestionElement = suggestion;
 
-    const popupPositionStyle = this.getIdealPopupPositionStyle(suggestion);
-
     const applySuggestion = (replacement: string) => {
       this.parent.preventLoop();
       this.parent.quill.setSelection(match.offset, match.length);
@@ -76,74 +75,55 @@ export default class PopupManager {
     };
 
     const popup = html`
-      <div class="quill-lt-match-popup" style="${popupPositionStyle}">
-        <div class="quill-lt-match-popup-header">
-          <button
-            class="quill-lt-match-popup-close"
-            onclick="${this.closePopup}"
-          >
-            ${raw("&times;")}
-          </button>
-        </div>
-        <div class="quill-lt-match-popup-title">${match.shortMessage}</div>
-        <div class="quill-lt-match-popup-description">${match.message}</div>
+      <quill-lt-popup role="tooltip">
+        <div class="quill-lt-match-popup">
+          <div class="quill-lt-match-popup-header">
+            <button
+              class="quill-lt-match-popup-close"
+              onclick="${this.closePopup}"
+            >
+              ${raw("&times;")}
+            </button>
+          </div>
+          <div class="quill-lt-match-popup-title">${match.shortMessage}</div>
+          <div class="quill-lt-match-popup-description">${match.message}</div>
 
-        <div class="quill-lt-match-popup-actions">
-          ${match.replacements?.slice(0, 3).map((replacement) => {
-            return html`
-              <button
-                class="quill-lt-match-popup-action"
-                data-replacement="${replacement.value}"
-                onclick=${() => applySuggestion(replacement.value)}
-              >
-                ${replacement.value}
-              </button>
-            `;
-          })}
-        </div>
+          <div class="quill-lt-match-popup-actions">
+            ${match.replacements?.slice(0, 3).map((replacement) => {
+              return html`
+                <button
+                  class="quill-lt-match-popup-action"
+                  data-replacement="${replacement.value}"
+                  onclick=${() => applySuggestion(replacement.value)}
+                >
+                  ${replacement.value}
+                </button>
+              `;
+            })}
+          </div>
 
-        <div class="quill-lt-powered-by">
-          Powered by <a href="https://languagetool.org">LanguageTool</a>
+          <div class="quill-lt-powered-by">
+            Powered by <a href="https://languagetool.org">LanguageTool</a>
+          </div>
         </div>
-      </div>
+        <div class="quill-lt-popup-arrow" data-popper-arrow></div>
+      </quill-lt-popup>
     `;
 
     document.body.appendChild(popup);
+
+    createPopper(suggestion, popup, {
+      placement: "top-end",
+      modifiers: [
+        {
+          name: "offset",
+          options: {
+            offset: [0, 8],
+          },
+        },
+      ],
+    });
+
     this.openPopup = popup;
-  }
-
-  private getIdealPopupPositionStyle(suggestion: HTMLElement) {
-    const windowHeight = window.innerHeight;
-    const windowWidth = window.innerWidth;
-
-    const suggestionPosition = suggestion.getBoundingClientRect();
-    let popupPosition: { [item: string]: number } = {};
-
-    if (suggestionPosition.top > windowHeight / 2) {
-      popupPosition.bottom = windowHeight - suggestionPosition.top;
-    } else {
-      popupPosition.top = suggestionPosition.top + suggestionPosition.height;
-    }
-
-    if (suggestionPosition.left > 400) {
-      // Position  popup left of suggestion
-      popupPosition.right = windowWidth - suggestionPosition.right;
-    } else {
-      // Position popup right of suggestion
-      popupPosition.left = suggestionPosition.left;
-
-      if (!this.hasEnoughSpaceForPopup(popupPosition.left, windowWidth)) {
-        // If there is enough space to the right, position the popup centrally
-        popupPosition.left = Math.max(10, popupPosition.left - 200);
-      }
-    }
-    const popupPositionStyle = Object.keys(popupPosition)
-      .map((key) => `${key}: ${popupPosition[key]}px`)
-      .join(";");
-    return popupPositionStyle;
-  }
-
-  private hasEnoughSpaceForPopup(border: number, maximum: number) {
-    return maximum - border > 400;
   }
 }

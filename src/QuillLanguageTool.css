@@ -11,11 +11,9 @@ quill-lt-match:hover {
 .quill-lt-match-popup {
   isolation: isolate;
 
-  position: absolute;
   background-color: #fff;
-  border: 1px solid #ccc;
-  border-radius: 3px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  border-radius: 7px;
+  box-shadow: 0 8px 30px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   padding: 5px;
   z-index: 1;
   max-width: 400px;
@@ -78,6 +76,41 @@ quill-lt-match:hover {
 }
 .quill-lt-powered-by a {
   color: #999;
+}
+
+/* Arrow */
+.quill-lt-popup-arrow,
+.quill-lt-popup-arrow::before {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  background: inherit;
+}
+
+.quill-lt-popup-arrow {
+  visibility: hidden;
+}
+
+.quill-lt-popup-arrow::before {
+  visibility: visible;
+  content: "";
+  transform: rotate(45deg);
+  background: white;
+}
+quill-lt-popup[data-popper-placement^="top"] > .quill-lt-popup-arrow {
+  bottom: -4px;
+}
+
+quill-lt-popup[data-popper-placement^="bottom"] > .quill-lt-popup-arrow {
+  top: -4px;
+}
+
+quill-lt-popup[data-popper-placement^="left"] > .quill-lt-popup-arrow {
+  right: -4px;
+}
+
+quill-lt-popup[data-popper-placement^="right"] > .quill-lt-popup-arrow {
+  left: -4px;
 }
 
 /* Loading indicator in editor */

@@ -27,6 +27,7 @@
     "deploy": "gh-pages -d example/build"
   },
   "dependencies": {
+    "@popperjs/core": "^2.11.6",
     "nanohtml": "^1.10.0",
     "quill-delta": "^5.0.0"
   },
