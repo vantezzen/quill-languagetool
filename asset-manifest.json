@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/quill-languagetool/static/css/main.2c6a48fe.chunk.css",
-    "main.js": "/quill-languagetool/static/js/main.a06ad313.chunk.js",
-    "main.js.map": "/quill-languagetool/static/js/main.a06ad313.chunk.js.map",
+    "main.js": "/quill-languagetool/static/js/main.4070c638.chunk.js",
+    "main.js.map": "/quill-languagetool/static/js/main.4070c638.chunk.js.map",
     "runtime-main.js": "/quill-languagetool/static/js/runtime-main.8c8c23e1.js",
     "runtime-main.js.map": "/quill-languagetool/static/js/runtime-main.8c8c23e1.js.map",
     "static/css/2.ad76a385.chunk.css": "/quill-languagetool/static/css/2.ad76a385.chunk.css",
     "static/js/2.810f1264.chunk.js": "/quill-languagetool/static/js/2.810f1264.chunk.js",
     "static/js/2.810f1264.chunk.js.map": "/quill-languagetool/static/js/2.810f1264.chunk.js.map",
     "index.html": "/quill-languagetool/index.html",
-    "precache-manifest.398ab8dc2852af1582af1d8d8c5693bb.js": "/quill-languagetool/precache-manifest.398ab8dc2852af1582af1d8d8c5693bb.js",
+    "precache-manifest.67f024c9713c069486bafea7e6508cc5.js": "/quill-languagetool/precache-manifest.67f024c9713c069486bafea7e6508cc5.js",
     "service-worker.js": "/quill-languagetool/service-worker.js",
     "static/css/2.ad76a385.chunk.css.map": "/quill-languagetool/static/css/2.ad76a385.chunk.css.map",
     "static/css/main.2c6a48fe.chunk.css.map": "/quill-languagetool/static/css/main.2c6a48fe.chunk.css.map",
@@ -20,6 +20,6 @@
     "static/css/2.ad76a385.chunk.css",
     "static/js/2.810f1264.chunk.js",
     "static/css/main.2c6a48fe.chunk.css",
-    "static/js/main.a06ad313.chunk.js"
+    "static/js/main.4070c638.chunk.js"
   ]
 }
