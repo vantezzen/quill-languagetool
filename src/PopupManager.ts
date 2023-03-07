@@ -1,6 +1,5 @@
 import { createPopper } from "@popperjs/core";
 import html from "nanohtml/lib/browser";
-import raw from "nanohtml/raw";
 import { QuillLanguageTool } from ".";
 import { MatchesEntity } from "./types";
 
@@ -80,15 +79,6 @@ export default class PopupManager {
     const popup = html`
       <quill-lt-popup role="tooltip">
         <div class="quill-lt-match-popup">
-          <div class="quill-lt-match-popup-header">
-            <button
-              class="quill-lt-match-popup-close"
-              onclick="${this.closePopup}"
-            >
-              ${raw("&times;")}
-            </button>
-          </div>
-          <div class="quill-lt-match-popup-title">${match.shortMessage}</div>
           <div class="quill-lt-match-popup-description">${match.message}</div>
 
           <div class="quill-lt-match-popup-actions">
