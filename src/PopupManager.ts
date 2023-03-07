@@ -24,6 +24,8 @@ export default class PopupManager {
       const target = e.target as HTMLElement;
       if (target.tagName === "QUILL-LT-MATCH") {
         this.handleSuggestionClick(target);
+      } else if (this.openPopup && !this.openPopup?.contains(target)) {
+        this.closePopup();
       }
     });
 
@@ -70,6 +72,7 @@ export default class PopupManager {
       this.parent.quill.insertText(match.offset, replacement);
       // @ts-ignore
       this.parent.quill.setSelection(match.offset + replacement.length);
+      this.parent.boxes.removeCurrentSuggestionBox(match, replacement);
 
       this.closePopup();
     };

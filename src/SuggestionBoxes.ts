@@ -1,7 +1,8 @@
-import debug from "./debug";
-import Delta from "quill-delta";
-import type Quill from "quill";
-import { QuillLanguageTool } from ".";
+import debug from './debug'
+import Delta from 'quill-delta'
+import type Quill from 'quill'
+import { QuillLanguageTool } from '.'
+import { MatchesEntity } from './types'
 
 /**
  * Clean all suggestion boxes from an HTML string
@@ -10,17 +11,17 @@ import { QuillLanguageTool } from ".";
  * @returns Cleaned text
  */
 export function getCleanedHtml(html: string) {
-  return html.replace(/<quill-lt-match .*>(.*)?<\/quill-lt-match>/g, "$1");
+  return html.replace(/<quill-lt-match .*>(.*)?<\/quill-lt-match>/g, '$1')
 }
 
 /**
  * Remove all suggestion boxes from the editor.
  */
 export function removeSuggestionBoxes(quillEditor: Quill) {
-  debug("Removing suggestion boxes for editor", quillEditor);
+  debug('Removing suggestion boxes for editor', quillEditor)
 
-  const initialSelection = quillEditor.getSelection();
-  const deltas = quillEditor.getContents();
+  const initialSelection = quillEditor.getSelection()
+  const deltas = quillEditor.getContents()
 
   const deltasWithoutSuggestionBoxes = deltas.ops.map((delta) => {
     if (delta.attributes && delta.attributes.ltmatch) {
@@ -28,18 +29,18 @@ export function removeSuggestionBoxes(quillEditor: Quill) {
         ...delta,
         attributes: {
           ...delta.attributes,
-          ltmatch: null,
-        },
-      };
+          ltmatch: null
+        }
+      }
     }
-    return delta;
-  });
+    return delta
+  })
 
   // @ts-ignore
-  quillEditor.setContents(new Delta(deltasWithoutSuggestionBoxes));
+  quillEditor.setContents(new Delta(deltasWithoutSuggestionBoxes))
 
   if (initialSelection) {
-    quillEditor.setSelection(initialSelection);
+    quillEditor.setSelection(initialSelection)
   }
 }
 
@@ -54,8 +55,8 @@ export class SuggestionBoxes {
    * Remove all suggestion boxes from the editor.
    */
   public removeSuggestionBoxes() {
-    this.parent.preventLoop();
-    removeSuggestionBoxes(this.parent.quill);
+    this.parent.preventLoop()
+    removeSuggestionBoxes(this.parent.quill)
   }
 
   /**
@@ -65,15 +66,37 @@ export class SuggestionBoxes {
    */
   public addSuggestionBoxes() {
     this.parent.matches.forEach((match) => {
-      this.parent.preventLoop();
+      this.parent.preventLoop()
 
       const ops = new Delta()
         .retain(match.offset)
-        .retain(match.length, { ltmatch: match });
+        .retain(match.length, { ltmatch: match })
       // @ts-ignore
-      this.parent.quill.updateContents(ops);
+      this.parent.quill.updateContents(ops)
 
-      debug("Adding formatter", "lt-match", match.offset, match.length);
-    });
+      debug('Adding formatter', 'lt-match', match.offset, match.length)
+    })
+  }
+
+  /**
+   * Insert a suggestion box into the editor.
+   *
+   * This uses the matches stored in the parent class
+   */
+  public removeCurrentSuggestionBox(
+    currentMatch: MatchesEntity,
+    replacement: string
+  ) {
+    const start = currentMatch.offset + currentMatch.length
+    const diff = replacement.length - currentMatch.length
+    this.parent.matches = this.parent.matches
+      .filter((match) => match.offset !== currentMatch.offset)
+      .map((match) => {
+        if (match.offset > start) {
+          match.offset += diff
+        }
+        return match
+      })
+    this.addSuggestionBoxes()
   }
 }

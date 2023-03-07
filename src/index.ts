@@ -36,10 +36,10 @@ export class QuillLanguageTool {
   protected loopPreventionCooldown?: NodeJS.Timeout;
 
   // Dependencies
-  protected boxes = new SuggestionBoxes(this);
   protected popups = new PopupManager(this);
   protected loader = new LoadingIndicator(this);
-
+  
+  public boxes = new SuggestionBoxes(this);
   public matches: MatchesEntity[] = [];
 
   /**
