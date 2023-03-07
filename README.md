@@ -1,6 +1,6 @@
-# quill-languagetool
+# quill-spell-checker
 
-> LanguageTool integration for Quill.js editors
+> Integrate any spell checker on Quill.js editor
 
 [![NPM](https://img.shields.io/npm/v/quill-languagetool.svg)](https://www.npmjs.com/package/quill-languagetool) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 

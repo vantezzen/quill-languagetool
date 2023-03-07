@@ -153,7 +153,7 @@ export class QuillLanguageTool {
  * Example:
  * ```
  * import Quill from "quill";
- * import registerQuillLanguageTool from "quill-languagetool";
+ * import registerQuillLanguageTool from "quill-spell-checker";
  * registerQuillLanguageTool(Quill);
  * ```
  *

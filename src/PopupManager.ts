@@ -20,7 +20,7 @@ export default class PopupManager {
   }
 
   private addEventHandler() {
-    this.parent.quill.root.addEventListener("click", (e) => {
+    this.findRoot(this.parent.quill.root).addEventListener("click", (e) => {
       const target = e.target as HTMLElement;
       if (target.tagName === "QUILL-LT-MATCH") {
         this.handleSuggestionClick(target);
@@ -101,10 +101,6 @@ export default class PopupManager {
               `;
             })}
           </div>
-
-          <div class="quill-lt-powered-by">
-            Powered by <a href="https://languagetool.org">LanguageTool</a>
-          </div>
         </div>
         <div class="quill-lt-popup-arrow" data-popper-arrow></div>
       </quill-lt-popup>
@@ -125,5 +121,13 @@ export default class PopupManager {
     });
 
     this.openPopup = popup;
+  }
+
+  private findRoot(element: HTMLElement): HTMLElement {
+    let currentElement = element
+    while (currentElement.parentNode) {
+      currentElement = currentElement.parentNode as HTMLElement
+    }
+    return currentElement
   }
 }
