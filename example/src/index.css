@@ -8,6 +8,18 @@
   padding: 0.5rem;
 }
 
+p * {
+  font-weight: normal !important;
+  font-style: normal !important;
+  text-decoration: none;
+  color: inherit !important;
+  background-color: inherit !important;
+  text-align: inherit !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  list-style: none !important;
+}
+
 ::-webkit-scrollbar {
   width: 12px;
 }
@@ -33,7 +45,7 @@ p {
 
 /* In-text suggestion element */
 quill-lt-match {
-  text-decoration: underline wavy #e82f45;
+  text-decoration: underline wavy #e82f45 !important;
   border: none !important;
 }
 
