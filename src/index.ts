@@ -105,7 +105,6 @@ export class QuillLanguageTool {
 
   private async getLanguageToolResults() {
     const params = this.getApiParams();
-    console.log(params, 'params')
 
     try {
       const response = await fetch(this.params.server + "/v2/check", {
