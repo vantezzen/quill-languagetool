@@ -11,7 +11,7 @@ import { MatchesEntity } from './types'
  * @returns Cleaned text
  */
 export function getCleanedHtml(html: string) {
-  return html.replace(/<quill-lt-match .*>(.*)?<\/quill-lt-match>/g, '$1')
+  return html.replace(/<quill-spck-match .*>(.*)?<\/quill-spck-match>/g, '$1')
 }
 
 /**
@@ -24,12 +24,12 @@ export function removeSuggestionBoxes(quillEditor: Quill) {
   const deltas = quillEditor.getContents()
 
   const deltasWithoutSuggestionBoxes = deltas.ops.map((delta) => {
-    if (delta.attributes && delta.attributes.ltmatch) {
+    if (delta.attributes && delta.attributes['spck-match']) {
       return {
         ...delta,
         attributes: {
           ...delta.attributes,
-          ltmatch: null
+          'spck-match': null
         }
       }
     }
@@ -70,7 +70,7 @@ export class SuggestionBoxes {
 
       const ops = new Delta()
         .retain(match.offset)
-        .retain(match.length, { ltmatch: match })
+        .retain(match.length, { 'spck-match': match })
       // @ts-ignore
       this.parent.quill.updateContents(ops)
 
@@ -90,6 +90,7 @@ export class SuggestionBoxes {
     const start = currentMatch.offset + currentMatch.length
     const diff = replacement.length - currentMatch.length
     this.parent.matches = this.parent.matches
+      .filter((match) => match.replacements && match.replacements.length > 0)
       .filter((match) => match.offset !== currentMatch.offset)
       .map((match) => {
         if (match.offset > start) {

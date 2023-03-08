@@ -6,7 +6,7 @@
 
 ## Demo
 
-![Example video](https://raw.githubusercontent.com/andersoncoder/react-quill-spell-checker/master/assets/quill-lt-example.gif)
+![Example video](https://raw.githubusercontent.com/andersoncoder/react-quill-spell-checker/master/assets/quill-spck-example.gif)
 
 A live demo can be found at <https://andersoncoder.github.io/react-quill-spell-checker>. The source code for a complete example with react-quill can be found in `/example`.
 
@@ -28,19 +28,19 @@ npm install --save react-quill-spell-checker
 ## Usage
 
 ```tsx
-import Quill from "quill";
-import registerQuillSpellChecker from "react-quill-spell-checker";
+import Quill from 'quill'
+import registerQuillSpellChecker from 'react-quill-spell-checker'
 
-registerQuillSpellChecker(Quill);
+registerQuillSpellChecker(Quill)
 
-const quill = new Quill("#editor", {
-  theme: "snow",
+const quill = new Quill('#editor', {
+  theme: 'snow',
   modules: {
     spellChecker: {
       // options here
-    },
-  },
-});
+    }
+  }
+})
 ```
 
 Using this module **will change** the contents of the editor to add control elements for spell checking and grammar checking. Look at ["Getting the contents of the editor"](#getting-the-contents-of-the-editor) for information on how to use the contents of the editor.
@@ -50,10 +50,10 @@ Using this module **will change** the contents of the editor to add control elem
 This package exports a default function to register the SpellChecker module to Quill.js.
 
 ```tsx
-import Quill from "quill";
-import registerQuillSpellChecker from "react-quill-spell-checker";
+import Quill from 'quill'
+import registerQuillSpellChecker from 'react-quill-spell-checker'
 
-registerQuillSpellChecker(Quill);
+registerQuillSpellChecker(Quill)
 ```
 
 This adds the SpellChecker module and the suggestion blot element to Quill.js so they can be used on any editor using that Quill import.
@@ -63,14 +63,14 @@ This adds the SpellChecker module and the suggestion blot element to Quill.js so
 Options can be provided into the `spellChecker` option of the Quill module.
 
 ```tsx
-const quill = new Quill("#editor", {
-  theme: "snow",
+const quill = new Quill('#editor', {
+  theme: 'snow',
   modules: {
     spellChecker: {
       // options here
-    },
-  },
-});
+    }
+  }
+})
 ```
 
 Available options are:
@@ -105,21 +105,21 @@ into this:
 ```html
 <p>
   This text
-  <quill-lt-match
+  <quill-spck-match
     data-offset="10"
     data-length="8"
     data-rule-id="MORFOLOGIK_RULE_EN_US"
   >
     conatins
-  </quill-lt-match>
+  </quill-spck-match>
   typos
-  <quill-lt-match
+  <quill-spck-match
     data-offset="24"
     data-length="2"
     data-rule-id="DOUBLE_PUNCTUATION"
   >
     ,,
-  </quill-lt-match>
+  </quill-spck-match>
   that should get corrected by SpellChecker
 </p>
 ```
@@ -127,10 +127,10 @@ into this:
 When getting the contents of the editor, the custom blot elements need to be removed. For this, the library exposes a `getCleanedHtml` method that removes the elements from an HTML string.
 
 ```tsx
-import { getCleanedHtml } from "react-quill-spell-checker";
+import { getCleanedHtml } from 'react-quill-spell-checker'
 
-const dirtyContents = quill.root.innerHTML;
-const cleanedContents = getCleanedHtml(quillHtml);
+const dirtyContents = quill.root.innerHTML
+const cleanedContents = getCleanedHtml(quillHtml)
 ```
 
 Alternatively, `removeSuggestionBoxes` can be used to remove the custom blot elements from the editor's content itself. Please note that this will trigger an update of the editor which will re-trigger the module to add them back again.

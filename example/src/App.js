@@ -1,36 +1,36 @@
 import React, { useState } from 'react'
 import ReactQuill, { Quill } from 'react-quill'
+import 'react-quill/dist/quill.snow.css'
 import registerQuillSpellChecker from 'react-quill-spell-checker'
 
 registerQuillSpellChecker(Quill)
 
+const addDisabledCategoriesOnBody = (text) => {
+  const body = {
+    text,
+    language: 'auto',
+    disabledCategories: 'FORMAL_SPEECH'
+  }
+  return Object.keys(body)
+    .map((key) => `${key}=${encodeURIComponent(body[key])}`)
+    .join('&')
+}
+
 const modules = {
-  toolbar: null,
   spellChecker: {
-    server: process.env.REACT_APP_LANGUAGE_TOOL_URI,
-    language: 'pt-BR',
-    cooldownTime: process.env.REACT_APP_LANGUAGE_TOOL_URI ? 1000 : 3000,
-    showLoadingIndicator: false,
-    apiOptions: {
-      disabledCategories: 'FORMAL_SPEECH'
+    cooldownTime: process.env.REACT_APP_COOLDOWN_TIME,
+    showLoadingIndicator: true,
+    api: {
+      url: process.env.REACT_APP_SPELL_CHECKER_URI,
+      body: addDisabledCategoriesOnBody
     }
   }
 }
 const App = () => {
-  const val =
-    'Jontus era um macaquinho muito intilijente. Ele gostava de explora a floresta e de descubrir coisas novas. Um dia, ele viu um bichinho no chão e correu até ele para pegalo. Mas quando chegou perto, viu que o bichinho era uma lagartixa muito assustada. Jontus ficou triste por ter assustado a lagartixa e decidiu se desculpar. Ele falou "descupa, eu não qui fazer mal. Eu só queria brincar". A lagartixa ficou mais calma e os dois se tornaram amigos.'
-  const [value, setValue] = useState(val)
+  const [value, setValue] = useState('')
 
   return (
-    <>
-      <ReactQuill
-        defaultValue={val}
-        onChange={(_, __, ___, editor) => setValue(editor.getText())}
-        modules={modules}
-        formats={null}
-      />
-      {value}
-    </>
+    <ReactQuill defaultValue={value} onChange={setValue} modules={modules} />
   )
 }
 export default App

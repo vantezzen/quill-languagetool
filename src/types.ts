@@ -1,80 +1,30 @@
 export interface SpellCheckerApi {
-  software: Software;
-  warnings: Warnings;
-  language: Language;
-  matches?: MatchesEntity[] | null;
+  url: string
+  body: SpellCheckerApiBody
+  headers: HeadersInit
+  method: string
+  mode: RequestMode
+  mapResponse: SpellCheckerResponseApi
 }
-export interface Software {
-  name: string;
-  version: string;
-  buildDate: string;
-  apiVersion: number;
-  premium: boolean;
-  premiumHint: string;
-  status: string;
-}
-export interface Warnings {
-  incompleteResults: boolean;
-}
+export type SpellCheckerApiBody = (text: string) => BodyInit
+export type SpellCheckerResponseApi = (response: Response) => Promise<{
+  language: Language
+  matches?: MatchesEntity[] | null
+}>
 export interface Language {
-  name: string;
-  code: string;
-  detectedLanguage: DetectedLanguage;
+  name: string
+  code: string
 }
 export interface DetectedLanguage {
-  name: string;
-  code: string;
-  confidence: number;
+  name: string
+  code: string
+  confidence: number
 }
 export interface MatchesEntity {
-  message: string;
-  shortMessage: string;
-  replacements?: ReplacementsEntity[] | null;
-  offset: number;
-  length: number;
-  context: Context;
-  sentence: string;
-  type: Type;
-  rule: Rule;
-  ignoreForIncompleteSentence: boolean;
-  contextForSureMatch: number;
+  replacements?: ReplacementsEntity[] | null
+  offset: number
+  length: number
 }
 export interface ReplacementsEntity {
-  value: string;
+  value: string
 }
-export interface Context {
-  text: string;
-  offset: number;
-  length: number;
-}
-export interface Type {
-  typeName: string;
-}
-export interface Rule {
-  id: string;
-  description: string;
-  issueType: string;
-  category: Category;
-}
-export interface Category {
-  id: string;
-  name: string;
-}
-
-export type SpellCheckerApiParams = {
-  text: string;
-  data: string;
-  language: string;
-  username: string;
-  apiKey: string;
-  dicts: string;
-  motherTongue: string;
-  preferredVariants: string;
-  enabledRules: string;
-  disabledRules: string;
-  enabledCategories: string;
-  disabledCategories: string;
-  enabledOnly: string;
-  level: "picky" | "default";
-  [key: string]: any;
-};

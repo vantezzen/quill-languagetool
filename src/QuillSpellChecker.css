@@ -1,135 +1,104 @@
 /* In-text suggestion element */
-quill-lt-match {
+quill-spck-match {
   border-bottom: #ff6a6a solid 3px;
 }
-quill-lt-match:hover {
+quill-spck-match:hover {
   background-color: #fdcccc;
   cursor: pointer;
 }
 
 /* Popup */
-.quill-lt-match-popup {
+.quill-spck-match-popup {
   isolation: isolate;
 
-  background-color: #fff;
+  background-color: white;
   border-radius: 7px;
-  box-shadow: 0 8px 30px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-  padding: 5px;
+  border: 1px solid #dadce0;
+  box-shadow: 0 1px 3px 1px rgb(60 64 67 / 15%);
   z-index: 1;
   max-width: 400px;
-  padding: 1rem;
 
-  font-family: -apple-system, BlinkMacSystemFont, "Avenir Next", Avenir,
-    "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji",
-    "Segoe UI Emoji", "Segoe UI Symbol";
+  font-family: -apple-system, BlinkMacSystemFont, 'Avenir Next', Avenir,
+    'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji',
+    'Segoe UI Emoji', 'Segoe UI Symbol';
   font-size: 1rem;
-  color: #39475c;
+  color: white;
+  overflow: hidden;
 }
 
-.quill-lt-match-popup-close {
-  float: right;
-  padding: 0.5rem;
-  cursor: pointer;
-  background-color: transparent;
-  border: none;
-  font-size: 1.5rem;
-  color: #ccc;
-}
-.quill-lt-match-popup-close:hover {
-  color: #39475c;
-}
-
-.quill-lt-match-popup-title {
-  font-size: 1rem;
-  font-weight: bold;
-  margin-bottom: 0.5rem;
-}
-.quill-lt-match-popup-description {
-  font-size: 0.8rem;
-  margin-bottom: 0.5rem;
-}
-
-/* .quill-lt-match-popup-actions {
+.quill-spck-match-popup-actions {
   display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
+  flex-direction: row;
+  margin-right: 0.0625rem solid #313131;
 }
 
-.quill-lt-match-popup-action {
+.quill-spck-match-popup-action {
   text-align: start;
-  font-weight: bolder;
+  font-weight: 500;
   cursor: pointer;
   border: none;
+  border-right: 1px solid #dadce0;
   padding: 0.5rem;
-  background-color: #fff;
-  color: #39475c;
+  background-color: white;
+  color: #3c4043;
 }
-.quill-lt-match-popup-action:hover {
-  background-color: #f5f5f5;
-} */
-
-.quill-lt-powered-by {
-  text-align: end;
-  font-size: 0.6rem;
-  color: #999;
-  margin-top: 0.5rem;
-}
-.quill-lt-powered-by a {
-  color: #999;
+.quill-spck-match-popup-action:hover {
+  background-color: #f1f3f4;
 }
 
 /* Arrow */
-.quill-lt-popup-arrow,
-.quill-lt-popup-arrow::before {
+.quill-spck-popup-arrow,
+.quill-spck-popup-arrow::before {
   position: absolute;
   width: 8px;
   height: 8px;
   background: inherit;
 }
 
-.quill-lt-popup-arrow {
+.quill-spck-popup-arrow {
   visibility: hidden;
 }
 
-.quill-lt-popup-arrow::before {
+.quill-spck-popup-arrow::before {
   visibility: visible;
-  content: "";
+  content: '';
   transform: rotate(45deg);
   background: white;
+  border: 1px solid #dadce0;
 }
-quill-lt-popup[data-popper-placement^="top"] > .quill-lt-popup-arrow {
+quill-spck-popup[data-popper-placement^='top'] > .quill-spck-popup-arrow {
   bottom: -4px;
 }
 
-quill-lt-popup[data-popper-placement^="bottom"] > .quill-lt-popup-arrow {
+quill-spck-popup[data-popper-placement^='bottom'] > .quill-spck-popup-arrow {
   top: -4px;
 }
 
-quill-lt-popup[data-popper-placement^="left"] > .quill-lt-popup-arrow {
+quill-spck-popup[data-popper-placement^='left'] > .quill-spck-popup-arrow {
   right: -4px;
 }
 
-quill-lt-popup[data-popper-placement^="right"] > .quill-lt-popup-arrow {
+quill-spck-popup[data-popper-placement^='right'] > .quill-spck-popup-arrow {
   left: -4px;
 }
 
 /* Loading indicator in editor */
-.quill-lt-loading-indicator {
+.quill-spck-loading-indicator {
   position: absolute;
   bottom: 3px;
   right: 3px;
   z-index: 10;
 }
-.quill-lt-loading-indicator-spinner {
+.quill-spck-loading-indicator-spinner {
   display: inline-block;
   width: 1rem;
   height: 1rem;
   border-radius: 50%;
   border: 2px solid #ccc;
   border-top-color: #39475c;
-  animation: quill-lt-loading-indicator-spin 1s linear infinite;
+  animation: quill-spck-loading-indicator-spin 1s linear infinite;
 }
-@keyframes quill-lt-loading-indicator-spin {
+@keyframes quill-spck-loading-indicator-spin {
   0% {
     transform: rotate(0deg);
   }
