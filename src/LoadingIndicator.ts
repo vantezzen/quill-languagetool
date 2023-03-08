@@ -1,4 +1,4 @@
-import { QuillLanguageTool } from ".";
+import { QuillSpellChecker } from ".";
 import html from "nanohtml/lib/browser";
 
 /**
@@ -9,7 +9,7 @@ import html from "nanohtml/lib/browser";
 export default class LoadingIndicator {
   private currentLoader?: HTMLElement;
 
-  constructor(private readonly parent: QuillLanguageTool) {}
+  constructor(private readonly parent: QuillSpellChecker) {}
 
   public startLoading() {
     this.currentLoader?.remove();

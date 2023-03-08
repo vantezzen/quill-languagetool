@@ -1,6 +1,6 @@
 import { createPopper } from "@popperjs/core";
 import html from "nanohtml/lib/browser";
-import { QuillLanguageTool } from ".";
+import { QuillSpellChecker } from ".";
 import { MatchesEntity } from "./types";
 
 /**
@@ -13,7 +13,7 @@ export default class PopupManager {
   private openPopup?: HTMLElement;
   private currentSuggestionElement?: HTMLElement;
 
-  constructor(private readonly parent: QuillLanguageTool) {
+  constructor(private readonly parent: QuillSpellChecker) {
     this.closePopup = this.closePopup.bind(this);
     this.addEventHandler();
   }

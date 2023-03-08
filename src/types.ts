@@ -1,5 +1,4 @@
-// Source: https://github.com/Clemens-E/obsidian-languagetool-plugin/blob/47dc0d35e1/src/LanguageToolTypings.ts
-export interface LanguageToolApi {
+export interface SpellCheckerApi {
   software: Software;
   warnings: Warnings;
   language: Language;
@@ -62,7 +61,7 @@ export interface Category {
   name: string;
 }
 
-export type LanguageToolApiParams = {
+export type SpellCheckerApiParams = {
   text: string;
   data: string;
   language: string;

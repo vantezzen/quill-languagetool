@@ -1,11 +1,11 @@
 {
-  "name": "quill-spell-checker-example",
-  "homepage": "https://andersonline.github.io/quill-spell-checker",
+  "name": "react-quill-spell-checker-example",
+  "homepage": "https://andersoncoder.github.io/react-quill-spell-checker",
   "version": "1.0.0",
   "license": "MIT",
   "private": true,
   "dependencies": {
-    "quill-spell-checker": "file:..",
+    "react-quill-spell-checker": "file:..",
     "react": "file:../node_modules/react",
     "react-dom": "^16.9.0",
     "react-quill": "^2.0.0",

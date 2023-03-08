@@ -1,10 +1,10 @@
 {
-  "name": "quill-spell-checker",
+  "name": "react-quill-spell-checker",
   "version": "1.0.0",
   "description": "Integrate any spell checker on Quill.js editor",
-  "author": "andersonline",
+  "author": "Anderson Filho",
   "license": "MIT",
-  "repository": "andersonline/quill-spell-checker",
+  "repository": "andersoncoder/react-quill-spell-checker",
   "main": "dist/index.js",
   "module": "dist/index.es.js",
   "types": "dist/index.d.ts",

@@ -1,6 +1,6 @@
 {
-  "short_name": "quill-spell-checker",
-  "name": "quill-spell-checker",
+  "short_name": "react-quill-spell-checker",
+  "name": "react-quill-spell-checker",
   "start_url": "./index.html",
   "display": "standalone",
   "theme_color": "#000000",

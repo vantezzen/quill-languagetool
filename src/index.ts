@@ -1,28 +1,27 @@
 import type Quill from "quill";
 import debug from "./debug";
 import { SuggestionBoxes } from "./SuggestionBoxes";
-import "./QuillLanguageTool.css";
+import "./QuillSpellChecker.css";
 import createSuggestionBlotForQuillInstance from "./SuggestionBlot";
 import PopupManager from "./PopupManager";
-import { LanguageToolApi, LanguageToolApiParams, MatchesEntity } from "./types";
+import { SpellCheckerApi, SpellCheckerApiParams, MatchesEntity } from "./types";
 import LoadingIndicator from "./LoadingIndicator";
 
-export type QuillLanguageToolParams = {
-  server: string;
+export type QuillSpellCheckerParams = {
+  server?: string;
   language: string;
   disableNativeSpellcheck: boolean;
   cooldownTime: number;
   showLoadingIndicator: boolean;
-  apiOptions?: Partial<LanguageToolApiParams>;
+  apiOptions?: Partial<SpellCheckerApiParams>;
 };
 
 /**
- * QuillLanguageTool is a Quill plugin that provides spellchecking and grammar checking
- * using the LanguageTool API.
+ * QuillSpellChecker is a Quill plugin that provides spellchecking and grammar checking
+ * using the SpellChecker API.
  */
-export class QuillLanguageTool {
-  static DEFAULTS: QuillLanguageToolParams = {
-    server: "https://languagetool.org/api",
+export class QuillSpellChecker {
+  static DEFAULTS: QuillSpellCheckerParams = {
     language: "en-US",
     disableNativeSpellcheck: true,
     cooldownTime: 3000,
@@ -43,13 +42,13 @@ export class QuillLanguageTool {
   public matches: MatchesEntity[] = [];
 
   /**
-   * Create a new QuillLanguageTool instance.
+   * Create a new QuillSpellChecker instance.
    *
    * @param quill Instance of the Qill editor.
-   * @param params Options for the QuillLanguageTool instance.
+   * @param params Options for the QuillSpellChecker instance.
    */
-  constructor(public quill: Quill, public params: QuillLanguageToolParams) {
-    debug("Attaching QuillLanguageTool to Quill instance", quill);
+  constructor(public quill: Quill, public params: QuillSpellCheckerParams) {
+    debug("Attaching QuillSpellChecker to Quill instance", quill);
 
     this.quill.on("text-change", (_delta, _oldDelta, source) => {
       if (source === "user") {
@@ -83,13 +82,13 @@ export class QuillLanguageTool {
     this.boxes.removeSuggestionBoxes();
 
     if (document.querySelector("lt-toolbar")) {
-      debug("Languagetool is installed as extension, not checking");
+      debug("SpellChecker is installed as extension, not checking");
       return;
     }
 
     debug("Checking spelling");
     this.loader.startLoading();
-    const json = await this.getLanguageToolResults();
+    const json = await this.getSpellCheckerResults();
 
     if (json && json.matches) {
       this.matches = json.matches;
@@ -103,7 +102,7 @@ export class QuillLanguageTool {
     this.loader.stopLoading();
   }
 
-  private async getLanguageToolResults() {
+  private async getSpellCheckerResults() {
     const params = this.getApiParams();
 
     try {
@@ -115,7 +114,7 @@ export class QuillLanguageTool {
         mode: "cors",
         body: params,
       });
-      const json = (await response.json()) as LanguageToolApi;
+      const json = (await response.json()) as SpellCheckerApi;
       return json;
     } catch (e) {
       return null;
@@ -145,7 +144,7 @@ export class QuillLanguageTool {
 }
 
 /**
- * Register all QuillLanguageTool modules with Quill.
+ * Register all QuillSpellChecker modules with Quill.
  *
  * This needs access to the exact Quill static instance
  * you will be using in your application.
@@ -153,16 +152,16 @@ export class QuillLanguageTool {
  * Example:
  * ```
  * import Quill from "quill";
- * import registerQuillLanguageTool from "quill-spell-checker";
- * registerQuillLanguageTool(Quill);
+ * import registerQuillSpellChecker from "react-quill-spell-checker";
+ * registerQuillSpellChecker(Quill);
  * ```
  *
  * @param Quill Quill static instance.
  */
-export default function registerQuillLanguageTool(Quill: any) {
-  debug("Registering QuillLanguageTool module for Quill instance");
+export default function registerQuillSpellChecker(Quill: any) {
+  debug("Registering QuillSpellChecker module for Quill instance");
   Quill.register({
-    "modules/languageTool": QuillLanguageTool,
+    "modules/spellChecker": QuillSpellChecker,
     "formats/ltmatch": createSuggestionBlotForQuillInstance(Quill),
   });
 }

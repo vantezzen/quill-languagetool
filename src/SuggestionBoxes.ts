@@ -1,7 +1,7 @@
 import debug from './debug'
 import Delta from 'quill-delta'
 import type Quill from 'quill'
-import { QuillLanguageTool } from '.'
+import { QuillSpellChecker } from '.'
 import { MatchesEntity } from './types'
 
 /**
@@ -49,7 +49,7 @@ export function removeSuggestionBoxes(quillEditor: Quill) {
  * This handles inserting and removing suggestion box elements from the editor.
  */
 export class SuggestionBoxes {
-  constructor(private readonly parent: QuillLanguageTool) {}
+  constructor(private readonly parent: QuillSpellChecker) {}
 
   /**
    * Remove all suggestion boxes from the editor.
