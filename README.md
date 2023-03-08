@@ -28,19 +28,20 @@ npm install --save react-quill-spell-checker
 ## Usage
 
 ```tsx
-import Quill from 'quill'
+import React, { useState } from 'react'
+import ReactQuill, { Quill } from 'react-quill'
+import 'react-quill/dist/quill.snow.css'
 import registerQuillSpellChecker from 'react-quill-spell-checker'
 
 registerQuillSpellChecker(Quill)
 
-const quill = new Quill('#editor', {
-  theme: 'snow',
-  modules: {
+<ReactQuill
+  modules={{
     spellChecker: {
       // options here
     }
-  }
-})
+  }}
+/>
 ```
 
 Using this module **will change** the contents of the editor to add control elements for spell checking and grammar checking. Look at ["Getting the contents of the editor"](#getting-the-contents-of-the-editor) for information on how to use the contents of the editor.
@@ -63,29 +64,25 @@ This adds the SpellChecker module and the suggestion blot element to Quill.js so
 Options can be provided into the `spellChecker` option of the Quill module.
 
 ```tsx
-const quill = new Quill('#editor', {
-  theme: 'snow',
-  modules: {
+<ReactQuill
+  modules={{
     spellChecker: {
       // options here
     }
-  }
-})
+  }}
+/>
 ```
 
 Available options are:
 
-- `server`: The URL of the Spell Checker server
-- `language` (default `"en-US"`): The language to use for the SpellChecker server
+- `api`: (default uses LanguageTool API) The Spell Checker API params, including `url`, `body` (usually contains the `text` and `language` required params for the API to work), `headers`, `method`, `mode` and `mapResponse` (used to map/transform the response of the API endpoint so that the spell checker understands).
 - `disableNativeSpellcheck` (default `true`): Disable the native spellchecker on the editor to prevent two conflicting systems trying to underline the same words
 - `cooldownTime` (default `3000`): The time after a user stops typing before the SpellChecker server is queried
 - `showLoadingIndicator` (default `true`): Show a loading indicator when the SpellChecker server is queried in the bottom right corner of the editor
-- `apiOptions` (default `{}`): Options to pass to the SpellChecker server (e.g. API Key, disabled rules, picky level etc.).
-  - Do not set `text`, `data` or `language` in the `apiOptions` as these are set automatically.
 
-### Server
+### API
 
-You can use any spell checker API, if you plan on using the library for larger sites, please consider using your own server.
+You can use any spell checker API, such as LanguageTool, if you plan on using the library for larger sites, please consider using your own server.
 
 ### cooldownTime
 
@@ -108,7 +105,6 @@ into this:
   <quill-spck-match
     data-offset="10"
     data-length="8"
-    data-rule-id="MORFOLOGIK_RULE_EN_US"
   >
     conatins
   </quill-spck-match>
@@ -116,7 +112,6 @@ into this:
   <quill-spck-match
     data-offset="24"
     data-length="2"
-    data-rule-id="DOUBLE_PUNCTUATION"
   >
     ,,
   </quill-spck-match>
@@ -154,7 +149,7 @@ By default, the library uses a simple, light-mode design for the suggestion boxe
 
 ## License
 
-MIT © [vantezzen](https://github.com/vantezzen)
+MIT © [andersoncoder](https://github.com/andersoncoder)
 
 ---
 
