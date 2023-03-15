@@ -46,6 +46,12 @@ quill-spck-match:hover {
   background-color: #f1f3f4;
 }
 
+.quill-spck-match-popup-message {
+  font-size: 12px;
+  padding: 0.5rem;
+  color: #3c4043;
+}
+
 /* Arrow */
 .quill-spck-popup-arrow,
 .quill-spck-popup-arrow::before {

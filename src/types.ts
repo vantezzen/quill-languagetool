@@ -21,6 +21,7 @@ export interface DetectedLanguage {
   confidence: number
 }
 export interface MatchesEntity {
+  message: string
   replacements?: ReplacementsEntity[] | null
   offset: number
   length: number
