@@ -64,9 +64,45 @@ export class QuillSpellChecker {
   constructor(public quill: Quill, public params: QuillSpellCheckerParams) {
     debug("Attaching QuillSpellChecker to Quill instance", quill)
 
+    this.quill.root.addEventListener("keydown", (event) => {
+      if (event.key === "Enter" && event.ctrlKey) {
+        const selectionIndex = quill.getSelection()?.index
+        if (typeof selectionIndex !== "undefined") {
+          quill.insertText(selectionIndex, "\n")
+          event.preventDefault()
+        }
+      }
+    })
+
     this.quill.on("text-change", (_delta, _, source) => {
       if (source !== "silent") {
         this.onTextChange()
+
+        // if a text was pasted, delete it if ctrl + z is pressed
+        // let pastedText: string | null = null
+
+        // this.quill.root.addEventListener("paste", (event: ClipboardEvent) => {
+        //   pastedText = event.clipboardData?.getData("text/plain") || null
+        // })
+
+        // this.quill.root.addEventListener("keydown", (event: KeyboardEvent) => {
+        //   if (event.ctrlKey && event.key === "z" && pastedText) {
+        //     const selection = this.quill.getSelection()
+        //     if (selection) {
+        //       const startIndex = selection.index - pastedText.length
+        //       const endIndex = selection.index
+        //       const textToDelete = this.quill.getText(
+        //         startIndex,
+        //         pastedText.length
+        //       )
+
+        //       if (textToDelete === pastedText) {
+        //         this.quill.deleteText(startIndex, endIndex)
+        //       }
+        //     }
+        //     pastedText = null
+        //   }
+        // })
       }
     })
 
@@ -93,9 +129,6 @@ export class QuillSpellChecker {
   }
 
   private async checkSpelling() {
-    debug("Removing existing suggestion boxes")
-    this.boxes.removeSuggestionBoxes()
-
     if (document.querySelector("spck-toolbar")) {
       debug("SpellChecker is installed as extension, not checking")
       return
@@ -106,6 +139,9 @@ export class QuillSpellChecker {
     if (!text.replace(/[\n\t\r]/g, "").trim()) {
       return
     }
+
+    debug("Removing existing suggestion boxes")
+    this.boxes.removeSuggestionBoxes()
 
     debug("Checking spelling")
     this.loader.startLoading()
@@ -165,10 +201,21 @@ export class QuillSpellChecker {
  */
 export default function registerQuillSpellChecker(Quill: any) {
   debug("Registering QuillSpellChecker module for Quill instance")
-  Quill.register({
-    "modules/spellChecker": QuillSpellChecker,
-    "formats/spck-match": createSuggestionBlotForQuillInstance(Quill),
-  })
+  Quill.register(
+    {
+      "modules/spellChecker": QuillSpellChecker,
+      "formats/spck-match": createSuggestionBlotForQuillInstance(Quill),
+    },
+    {
+      suppressDeprecationWarnings: true,
+    },
+    {
+      suppress: true,
+    },
+    {
+      suppressWarning: true,
+    }
+  )
 }
 
 export { getCleanedHtml, removeSuggestionBoxes } from "./SuggestionBoxes"

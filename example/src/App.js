@@ -27,7 +27,7 @@ const modules = {
   }
 }
 const App = () => {
-  const [value, setValue] = useState('')
+  const [value, setValue] = useState('Haviam duas ratinhas, uma chamava Susy e a outra chamava Dora. As duas viviam em um buraco na parede de uma casa. Certo dia, elas decidiram sair para procurar um queijo bem gostozo.')
 
   return (
     <ReactQuill defaultValue={value} onChange={setValue} modules={modules} />
