@@ -77,7 +77,6 @@ export default class PopupManager {
     const popup = html`
       <quill-spck-popup role="tooltip">
         <div class="quill-spck-match-popup">
-          <div class="quill-spck-match-popup-message">${match.message}</div>
           <div class="quill-spck-match-popup-actions">
             ${match.replacements?.slice(0, 3).map((replacement) => {
               return html`
