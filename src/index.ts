@@ -1,4 +1,4 @@
-import type Quill from "quill"
+import Quill from "quill"
 import debug from "./debug"
 import { SuggestionBoxes } from "./SuggestionBoxes"
 import "./QuillSpellChecker.css"
@@ -64,6 +64,14 @@ export class QuillSpellChecker {
   constructor(public quill: Quill, public params: QuillSpellCheckerParams) {
     debug("Attaching QuillSpellChecker to Quill instance", quill)
 
+    // not allow the insertion of images and texts with formatting
+    quill.clipboard.addMatcher(Node.ELEMENT_NODE, function (node) {
+      const plaintext = node.innerText
+      const Delta = Quill.import("delta")
+      return new Delta().insert(plaintext)
+    })
+
+    // break line using ctrl + enter
     this.quill.root.addEventListener("keydown", (event) => {
       if (event.key === "Enter" && event.ctrlKey) {
         const selectionIndex = quill.getSelection()?.index
@@ -74,35 +82,16 @@ export class QuillSpellChecker {
       }
     })
 
+    // clear text when use ctrl + z
+    this.quill.root.addEventListener("keydown", (event: KeyboardEvent) => {
+      if (event.ctrlKey && event.key === "z") {
+        this.quill.getModule("history").undo()
+      }
+    })
+
     this.quill.on("text-change", (_delta, _, source) => {
       if (source !== "silent") {
         this.onTextChange()
-
-        // if a text was pasted, delete it if ctrl + z is pressed
-        // let pastedText: string | null = null
-
-        // this.quill.root.addEventListener("paste", (event: ClipboardEvent) => {
-        //   pastedText = event.clipboardData?.getData("text/plain") || null
-        // })
-
-        // this.quill.root.addEventListener("keydown", (event: KeyboardEvent) => {
-        //   if (event.ctrlKey && event.key === "z" && pastedText) {
-        //     const selection = this.quill.getSelection()
-        //     if (selection) {
-        //       const startIndex = selection.index - pastedText.length
-        //       const endIndex = selection.index
-        //       const textToDelete = this.quill.getText(
-        //         startIndex,
-        //         pastedText.length
-        //       )
-
-        //       if (textToDelete === pastedText) {
-        //         this.quill.deleteText(startIndex, endIndex)
-        //       }
-        //     }
-        //     pastedText = null
-        //   }
-        // })
       }
     })
 
@@ -201,21 +190,10 @@ export class QuillSpellChecker {
  */
 export default function registerQuillSpellChecker(Quill: any) {
   debug("Registering QuillSpellChecker module for Quill instance")
-  Quill.register(
-    {
-      "modules/spellChecker": QuillSpellChecker,
-      "formats/spck-match": createSuggestionBlotForQuillInstance(Quill),
-    },
-    {
-      suppressDeprecationWarnings: true,
-    },
-    {
-      suppress: true,
-    },
-    {
-      suppressWarning: true,
-    }
-  )
+  Quill.register({
+    "modules/spellChecker": QuillSpellChecker,
+    "formats/spck-match": createSuggestionBlotForQuillInstance(Quill),
+  })
 }
 
 export { getCleanedHtml, removeSuggestionBoxes } from "./SuggestionBoxes"
