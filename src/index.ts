@@ -1,11 +1,11 @@
-import type Quill from 'quill'
-import debug from './debug'
-import { SuggestionBoxes } from './SuggestionBoxes'
-import './QuillSpellChecker.css'
-import createSuggestionBlotForQuillInstance from './SuggestionBlot'
-import PopupManager from './PopupManager'
-import { SpellCheckerApi, MatchesEntity } from './types'
-import LoadingIndicator from './LoadingIndicator'
+import Quill from "quill"
+import debug from "./debug"
+import { SuggestionBoxes } from "./SuggestionBoxes"
+import "./QuillSpellChecker.css"
+import createSuggestionBlotForQuillInstance from "./SuggestionBlot"
+import PopupManager from "./PopupManager"
+import { SpellCheckerApi, MatchesEntity } from "./types"
+import LoadingIndicator from "./LoadingIndicator"
 
 export type QuillSpellCheckerParams = {
   disableNativeSpellcheck: boolean
@@ -21,26 +21,26 @@ export type QuillSpellCheckerParams = {
 export class QuillSpellChecker {
   static DEFAULTS: QuillSpellCheckerParams = {
     api: {
-      url: 'https://languagetool.org/api/v2/check',
+      url: "https://languagetool.org/api/v2/check",
       body: (text: string) => {
         const body = {
           text,
-          language: 'auto'
+          language: "auto",
         }
         return Object.keys(body)
           .map((key) => `${key}=${encodeURIComponent(body[key])}`)
-          .join('&')
+          .join("&")
       },
       headers: {
-        'Content-Type': 'application/x-www-form-urlencoded'
+        "Content-Type": "application/x-www-form-urlencoded",
       },
-      method: 'POST',
-      mode: 'cors',
-      mapResponse: async (response) => await response.json()
+      method: "POST",
+      mode: "cors",
+      mapResponse: async (response) => await response.json(),
     },
     disableNativeSpellcheck: true,
     cooldownTime: 3000,
-    showLoadingIndicator: false
+    showLoadingIndicator: false,
   }
 
   protected typingCooldown?: NodeJS.Timeout
@@ -62,20 +62,46 @@ export class QuillSpellChecker {
    * @param params Options for the QuillSpellChecker instance.
    */
   constructor(public quill: Quill, public params: QuillSpellCheckerParams) {
-    debug('Attaching QuillSpellChecker to Quill instance', quill)
+    debug("Attaching QuillSpellChecker to Quill instance", quill)
 
-    this.quill.on('text-change', (_delta, _oldDelta, source) => {
-      if (source === 'user') {
+    // not allow the insertion of images and texts with formatting
+    quill.clipboard.addMatcher(Node.ELEMENT_NODE, function (node) {
+      const plaintext = node.innerText
+      const Delta = Quill.import("delta")
+      return new Delta().insert(plaintext)
+    })
+
+    // break line using ctrl + enter
+    this.quill.root.addEventListener("keydown", (event) => {
+      if (event.key === "Enter" && event.ctrlKey) {
+        const selectionIndex = quill.getSelection()?.index
+        if (typeof selectionIndex !== "undefined") {
+          quill.insertText(selectionIndex, "\n")
+          event.preventDefault()
+        }
+      }
+    })
+
+    // clear text when use ctrl + z
+    this.quill.root.addEventListener("keydown", (event: KeyboardEvent) => {
+      if (event.ctrlKey && event.key === "z") {
+        this.quill.getModule("history").undo()
+      }
+    })
+
+    this.quill.on("text-change", (_delta, _, source) => {
+      if (source !== "silent") {
         this.onTextChange()
       }
     })
+
     this.checkSpelling()
     this.disableNativeSpellcheckIfSet()
   }
 
   private disableNativeSpellcheckIfSet() {
     if (this.params.disableNativeSpellcheck) {
-      this.quill.root.setAttribute('spellcheck', 'false')
+      this.quill.root.setAttribute("spellcheck", "false")
     }
   }
 
@@ -85,44 +111,50 @@ export class QuillSpellChecker {
       clearTimeout(this.typingCooldown)
     }
     this.typingCooldown = setTimeout(() => {
-      debug('User stopped typing, checking spelling')
+      debug("User stopped typing, checking spelling")
 
       this.checkSpelling()
     }, this.params.cooldownTime)
   }
 
   private async checkSpelling() {
-    // debug("Removing existing suggestion boxes");
-    // this.boxes.removeSuggestionBoxes();
-
-    if (document.querySelector('spck-toolbar')) {
-      debug('SpellChecker is installed as extension, not checking')
+    if (document.querySelector("spck-toolbar")) {
+      debug("SpellChecker is installed as extension, not checking")
       return
     }
 
-    debug('Checking spelling')
+    const text = this.quill.getText()
+
+    if (!text.replace(/[\n\t\r]/g, "").trim()) {
+      return
+    }
+
+    debug("Removing existing suggestion boxes")
+    this.boxes.removeSuggestionBoxes()
+
+    debug("Checking spelling")
     this.loader.startLoading()
-    const json = await this.getSpellCheckerResults()
+    const json = await this.getSpellCheckerResults(text)
 
     if (json && json.matches && json.matches.length > 0) {
       this.matches = json.matches.filter(
         (match) => match.replacements && match.replacements.length > 0
       )
 
-      debug('Adding suggestion boxes')
+      debug("Adding suggestion boxes")
       this.boxes.addSuggestionBoxes()
     } else {
-      debug('No matches found')
+      debug("No matches found")
       this.matches = []
     }
     this.loader.stopLoading()
   }
 
-  private async getSpellCheckerResults() {
+  private async getSpellCheckerResults(text: string) {
     try {
       const response = await fetch(this.params.api.url, {
         ...this.params.api,
-        body: this.params.api.body(this.quill.getText())
+        body: this.params.api.body(text),
       })
       return this.params.api.mapResponse(response)
     } catch (e) {
@@ -157,11 +189,11 @@ export class QuillSpellChecker {
  * @param Quill Quill static instance.
  */
 export default function registerQuillSpellChecker(Quill: any) {
-  debug('Registering QuillSpellChecker module for Quill instance')
+  debug("Registering QuillSpellChecker module for Quill instance")
   Quill.register({
-    'modules/spellChecker': QuillSpellChecker,
-    'formats/spck-match': createSuggestionBlotForQuillInstance(Quill)
+    "modules/spellChecker": QuillSpellChecker,
+    "formats/spck-match": createSuggestionBlotForQuillInstance(Quill),
   })
 }
 
-export { getCleanedHtml, removeSuggestionBoxes } from './SuggestionBoxes'
+export { getCleanedHtml, removeSuggestionBoxes } from "./SuggestionBoxes"

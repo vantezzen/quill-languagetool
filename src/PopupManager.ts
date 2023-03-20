@@ -1,7 +1,7 @@
-import { createPopper } from '@popperjs/core'
-import html from 'nanohtml/lib/browser'
-import { QuillSpellChecker } from '.'
-import { MatchesEntity } from './types'
+import { createPopper } from "@popperjs/core"
+import html from "nanohtml/lib/browser"
+import { QuillSpellChecker } from "."
+import { MatchesEntity } from "./types"
 
 /**
  * Manager for popups.
@@ -19,16 +19,16 @@ export default class PopupManager {
   }
 
   private addEventHandler() {
-    this.findRoot(this.parent.quill.root).addEventListener('click', (e) => {
+    this.findRoot(this.parent.quill.root).addEventListener("click", (e) => {
       const target = e.target as HTMLElement
-      if (target.tagName === 'QUILL-SPCK-MATCH') {
+      if (target.tagName === "QUILL-SPCK-MATCH") {
         this.handleSuggestionClick(target)
       } else if (this.openPopup && !this.openPopup?.contains(target)) {
         this.closePopup()
       }
     })
 
-    window.addEventListener('resize', () => {
+    window.addEventListener("resize", () => {
       if (this.currentSuggestionElement) {
         this.handleSuggestionClick(this.currentSuggestionElement)
       }
@@ -44,8 +44,8 @@ export default class PopupManager {
   }
 
   private handleSuggestionClick(suggestion: HTMLElement) {
-    const offset = parseInt(suggestion.getAttribute('data-offset') || '0')
-    const length = parseInt(suggestion.getAttribute('data-length') || '0')
+    const offset = parseInt(suggestion.getAttribute("data-offset") || "0")
+    const length = parseInt(suggestion.getAttribute("data-length") || "0")
     const rule = this.parent.matches.find(
       (r) => r.offset === offset && r.length === length
     )
@@ -97,15 +97,15 @@ export default class PopupManager {
     document.body.appendChild(popup)
 
     createPopper(suggestion, popup, {
-      placement: 'top',
+      placement: "top",
       modifiers: [
         {
-          name: 'offset',
+          name: "offset",
           options: {
-            offset: [0, 0]
-          }
-        }
-      ]
+            offset: [0, 0],
+          },
+        },
+      ],
     })
 
     this.openPopup = popup
