@@ -71,21 +71,14 @@ export class QuillSpellChecker {
       return new Delta().insert(plaintext)
     })
 
-    // break line using ctrl + enter
+    // break line using enter
     this.quill.root.addEventListener("keydown", (event) => {
-      if (event.key === "Enter" && event.ctrlKey) {
+      if (event.key === "Enter") {
         const selectionIndex = quill.getSelection()?.index
         if (typeof selectionIndex !== "undefined") {
           quill.insertText(selectionIndex, "\n")
           event.preventDefault()
         }
-      }
-    })
-
-    // clear text when use ctrl + z
-    this.quill.root.addEventListener("keydown", (event: KeyboardEvent) => {
-      if (event.ctrlKey && event.key === "z") {
-        this.quill.getModule("history").undo()
       }
     })
 
