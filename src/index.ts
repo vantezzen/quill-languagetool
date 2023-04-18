@@ -6,6 +6,7 @@ import createSuggestionBlotForQuillInstance from "./SuggestionBlot"
 import PopupManager from "./PopupManager"
 import { SpellCheckerApi, MatchesEntity } from "./types"
 import LoadingIndicator from "./LoadingIndicator"
+import PlainClipboard from "./PlainClipboard"
 
 export type QuillSpellCheckerParams = {
   disableNativeSpellcheck: boolean
@@ -186,6 +187,7 @@ export default function registerQuillSpellChecker(Quill: any) {
   Quill.register({
     "modules/spellChecker": QuillSpellChecker,
     "formats/spck-match": createSuggestionBlotForQuillInstance(Quill),
+    "modules/clipboard": PlainClipboard,
   })
 }
 
