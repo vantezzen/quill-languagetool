@@ -50,9 +50,8 @@ export default class PopupManager {
       (r) => r.offset === offset && r.length === length
     )
     if (!rule) {
-      throw new Error(`Could not find rule`)
+      return
     }
-
     this.createSuggestionPopup(rule, suggestion)
   }
 
