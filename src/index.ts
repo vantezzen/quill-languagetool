@@ -83,6 +83,14 @@ export class QuillSpellChecker {
       }
     })
 
+    // copy plain text to clipboard
+    this.quill.root.addEventListener("copy", (event: any) => {
+      const range = this.quill.getSelection()
+      const text = this.quill.getText(range?.index, range?.length)
+      event.clipboardData.setData("text/plain", text)
+      event.preventDefault()
+    })
+
     this.quill.on("text-change", (_delta, _, source) => {
       if (source !== "silent") {
         this.onTextChange()
