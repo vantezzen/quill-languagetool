@@ -35,7 +35,6 @@ export default class EnterKeyboard extends Keyboard {
   }
 
   handleEnter(range: any, context: any) {
-    console.log('teste')
     if (range.length > 0) {
       this.quill.scroll.deleteAt(range.index, range.length) // So we do not trigger text-change
     }
