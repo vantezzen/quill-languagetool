@@ -72,7 +72,8 @@ export class QuillSpellChecker {
       return new Delta().insert(plaintext)
     })
 
-    // break line using enter
+    // break line using enter and
+    // do not allow the insertion of <> characters
     this.quill.root.addEventListener("keydown", (event) => {
       if (event.key === "Enter") {
         const selectionIndex = quill.getSelection()?.index
@@ -80,6 +81,8 @@ export class QuillSpellChecker {
           quill.insertText(selectionIndex, "\n")
           event.preventDefault()
         }
+      } else if (event.key === "<" || event.key === ">") {
+        event.preventDefault()
       }
     })
 
