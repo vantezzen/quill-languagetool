@@ -1,7 +1,7 @@
-import debug from './debug'
-import Delta from 'quill-delta'
 import type Quill from 'quill'
+import Delta from 'quill-delta'
 import { QuillSpellChecker } from '.'
+import debug from './debug'
 import { MatchesEntity } from './types'
 
 /**
@@ -37,10 +37,10 @@ export function removeSuggestionBoxes(quillEditor: Quill) {
   })
 
   // @ts-ignore
-  quillEditor.setContents(new Delta(deltasWithoutSuggestionBoxes))
+  quillEditor.setContents(new Delta(deltasWithoutSuggestionBoxes), 'silent')
 
   if (initialSelection) {
-    quillEditor.setSelection(initialSelection)
+    quillEditor.setSelection(initialSelection, 'silent')
   }
 }
 
@@ -72,7 +72,7 @@ export class SuggestionBoxes {
         .retain(match.offset)
         .retain(match.length, { 'spck-match': match })
       // @ts-ignore
-      this.parent.quill.updateContents(ops)
+      this.parent.quill.updateContents(ops, 'silent')
 
       debug('Adding formatter', 'lt-match', match.offset, match.length)
     })

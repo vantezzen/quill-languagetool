@@ -63,11 +63,11 @@ export default class PopupManager {
 
     const applySuggestion = (replacement: string) => {
       this.parent.preventLoop()
-      this.parent.quill.setSelection(match.offset, match.length)
-      this.parent.quill.deleteText(match.offset, match.length)
-      this.parent.quill.insertText(match.offset, replacement)
+      this.parent.quill.setSelection(match.offset, match.length, 'silent')
+      this.parent.quill.deleteText(match.offset, match.length, 'silent')
+      this.parent.quill.insertText(match.offset, replacement, 'silent')
       // @ts-ignore
-      this.parent.quill.setSelection(match.offset + replacement.length)
+      this.parent.quill.setSelection(match.offset + replacement.length, 'silent')
       this.parent.boxes.removeCurrentSuggestionBox(match, replacement)
 
       this.closePopup()

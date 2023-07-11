@@ -5,6 +5,7 @@ export interface SpellCheckerApi {
   method: string
   mode: RequestMode
   mapResponse: SpellCheckerResponseApi
+  matches?: MatchesEntity[]
 }
 export type SpellCheckerApiBody = (text: string) => BodyInit
 export type SpellCheckerResponseApi = (response: Response) => Promise<{

@@ -18,7 +18,7 @@ export default class PlainClipboard extends Clipboard {
       .insert(text)
     const index = text.length + range.index
     const length = 0
-    this.quill.updateContents(delta)
+    this.quill.updateContents(delta, 'user')
     this.quill.setSelection(index, length)
     this.quill.scrollIntoView()
   }

@@ -9,7 +9,7 @@
     "react": "file:../node_modules/react",
     "react-dom": "^16.9.0",
     "react-quill": "^2.0.0",
-    "react-scripts": "^3.0.1"
+    "react-scripts": "file:../node_modules/react-scripts"
   },
   "scripts": {
     "start": "react-scripts start",

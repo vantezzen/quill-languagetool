@@ -1,12 +1,12 @@
 import Quill from "quill"
-import debug from "./debug"
-import { SuggestionBoxes } from "./SuggestionBoxes"
-import "./QuillSpellChecker.css"
-import createSuggestionBlotForQuillInstance from "./SuggestionBlot"
-import PopupManager from "./PopupManager"
-import { SpellCheckerApi, MatchesEntity } from "./types"
 import LoadingIndicator from "./LoadingIndicator"
 import PlainClipboard from "./PlainClipboard"
+import PopupManager from "./PopupManager"
+import "./QuillSpellChecker.css"
+import createSuggestionBlotForQuillInstance from "./SuggestionBlot"
+import { SuggestionBoxes } from "./SuggestionBoxes"
+import debug from "./debug"
+import { MatchesEntity, SpellCheckerApi } from "./types"
 
 export type QuillSpellCheckerParams = {
   disableNativeSpellcheck: boolean
@@ -24,7 +24,7 @@ export class QuillSpellChecker {
     api: {
       url: "https://languagetool.org/api/v2/check",
       body: (text: string) => {
-        const body = {
+        const body = <any>{
           text,
           language: "auto",
         }
@@ -78,7 +78,7 @@ export class QuillSpellChecker {
       if (event.key === "Enter") {
         const selectionIndex = quill.getSelection()?.index
         if (typeof selectionIndex !== "undefined") {
-          quill.insertText(selectionIndex, "\n")
+          quill.insertText(selectionIndex, "\n", "user")
           event.preventDefault()
         }
       } else if (event.key === "<" || event.key === ">") {
@@ -95,11 +95,16 @@ export class QuillSpellChecker {
     })
 
     this.quill.on("text-change", (_delta, _, source) => {
-      if (source !== "silent") {
+      if (source === "user") {
         this.onTextChange()
+      } else if (this.params.api.matches && this.params.api.matches.length > 0 && this.quill.getText().trim()) {
+        this.matches = this.params.api.matches.filter(
+          (match) => match.replacements && match.replacements.length > 0
+        )
+        debug("Adding suggestion boxes")
+        this.boxes.addSuggestionBoxes()
       }
     })
-
     this.checkSpelling()
     this.disableNativeSpellcheckIfSet()
   }
