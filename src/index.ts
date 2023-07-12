@@ -78,7 +78,7 @@ export class QuillSpellChecker {
       if (event.key === "Enter") {
         const selectionIndex = quill.getSelection()?.index
         if (typeof selectionIndex !== "undefined") {
-          quill.insertText(selectionIndex, "\n", "user")
+          quill.insertText(selectionIndex, "\n")
           event.preventDefault()
         }
       } else if (event.key === "<" || event.key === ">") {
