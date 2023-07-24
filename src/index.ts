@@ -97,16 +97,22 @@ export class QuillSpellChecker {
     this.quill.on("text-change", (_delta, _, source) => {
       if (source === "user") {
         this.onTextChange()
-      } else if (this.params.api.matches && this.params.api.matches.length > 0 && this.quill.getText().trim()) {
-        this.matches = this.params.api.matches.filter(
-          (match) => match.replacements && match.replacements.length > 0
-        )
+      } else if (
+        this.matches.length > 0 &&
+        this.quill.getText().trim()
+      ) {
         debug("Adding suggestion boxes")
         this.boxes.addSuggestionBoxes()
       }
     })
     this.checkSpelling()
     this.disableNativeSpellcheckIfSet()
+  }
+
+  updateMatches(matches: MatchesEntity[]) {
+    this.boxes.removeSuggestionBoxes()
+    this.matches = matches
+    this.boxes.addSuggestionBoxes()
   }
 
   private disableNativeSpellcheckIfSet() {
