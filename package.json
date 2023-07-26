@@ -4,7 +4,7 @@
   "description": "Integrate any spell checker on Quill.js editor",
   "author": "Anderson Filho",
   "license": "MIT",
-  "repository": "andersoncoder/react-quill-spell-checker",
+  "repository": "anderneath/react-quill-spell-checker",
   "main": "dist/index.js",
   "module": "dist/index.es.js",
   "types": "dist/index.d.ts",

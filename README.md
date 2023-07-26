@@ -6,9 +6,9 @@
 
 ## Demo
 
-![Example video](https://raw.githubusercontent.com/andersoncoder/react-quill-spell-checker/master/assets/quill-spck-example.gif)
+![Example video](https://raw.githubusercontent.com/anderneath/react-quill-spell-checker/master/assets/quill-spck-example.gif)
 
-A live demo can be found at <https://andersoncoder.github.io/react-quill-spell-checker>. The source code for a complete example with react-quill can be found in `/example`.
+A live demo can be found at <https://anderneath.github.io/react-quill-spell-checker>. The source code for a complete example with react-quill can be found in `/example`.
 
 ## Features
 
@@ -139,7 +139,7 @@ removeSuggestionBoxes(quill);
 
 ### Customizing design
 
-By default, the library uses a simple, light-mode design for the suggestion boxes. By overriding the CSS classes used you can customize the design. Take a look at [`/src/QuillSpellChecker.css`](https://github.com/andersoncoder/react-quill-spell-checker/blob/master/src/QuillSpellChecker.css) for all styles and classes used by the default design
+By default, the library uses a simple, light-mode design for the suggestion boxes. By overriding the CSS classes used you can customize the design. Take a look at [`/src/QuillSpellChecker.css`](https://github.com/anderneath/react-quill-spell-checker/blob/master/src/QuillSpellChecker.css) for all styles and classes used by the default design
 
 ## Development
 
@@ -149,7 +149,7 @@ By default, the library uses a simple, light-mode design for the suggestion boxe
 
 ## License
 
-MIT © [andersoncoder](https://github.com/andersoncoder)
+MIT © [anderneath](https://github.com/anderneath)
 
 ---
 
