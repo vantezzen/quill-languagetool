@@ -20,6 +20,7 @@ export default function createSuggestionBlotForQuillInstance(Quill: any) {
       if (match) {
         node.setAttribute('data-offset', match.offset?.toString())
         node.setAttribute('data-length', match.length?.toString())
+        node.id=`match-${match.id}`
       }
       return node
     }
