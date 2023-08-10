@@ -109,9 +109,10 @@ export class QuillSpellChecker {
     this.disableNativeSpellcheckIfSet()
   }
 
-  updateMatches(matches: MatchesEntity[]) {
+  updateMatches(callback: (matches: MatchesEntity[]) => MatchesEntity[] | MatchesEntity[]) {
+    
     this.boxes.removeSuggestionBoxes()
-    this.matches = matches
+    this.matches = typeof callback === 'function' ? callback(this.matches) : callback
     this.boxes.addSuggestionBoxes()
   }
 

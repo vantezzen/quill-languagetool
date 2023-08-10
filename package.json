@@ -1,6 +1,6 @@
 {
   "name": "react-quill-spell-checker",
-  "version": "1.5.0",
+  "version": "1.6.0",
   "description": "Integrate any spell checker on Quill.js editor",
   "author": "Anderson Filho",
   "license": "MIT",
