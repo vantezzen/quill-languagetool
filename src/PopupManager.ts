@@ -62,12 +62,12 @@ export default class PopupManager {
 
     this.parent.matches = this.parent.matches.filter((match) => {
       if (match.offset === startOffset) {
-        return false; // Remove the match with the given startOffset
+        return false;
       }
       if (match.offset > startOffset) {
         match.offset += diff;
       }
-      return true; // Keep all other matches
+      return true;
     });
 
     this.parent.reloadBoxes();
