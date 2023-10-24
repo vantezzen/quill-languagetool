@@ -58,14 +58,20 @@ export default class PopupManager {
   }
 
   private updateOffsets(replacementLength: number, originalLength: number, startOffset: number) {
-  const diff = replacementLength - originalLength;
+    const diff = replacementLength - originalLength;
 
-  this.parent.matches.forEach((match) => {
-    if (match.offset > startOffset) {
-      match.offset += diff;
-    }
-  });
-}
+    this.parent.matches = this.parent.matches.filter((match) => {
+      if (match.offset === startOffset) {
+        return false; // Remove the match with the given startOffset
+      }
+      if (match.offset > startOffset) {
+        match.offset += diff;
+      }
+      return true; // Keep all other matches
+    });
+
+    this.parent.reloadBoxes();
+  }
 
 
   private createSuggestionPopup(match: MatchesEntity, suggestion: HTMLElement) {

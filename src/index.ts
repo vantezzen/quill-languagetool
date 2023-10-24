@@ -78,6 +78,11 @@ export class QuillLanguageTool {
     }, this.params.cooldownTime);
   }
 
+  public async reloadBoxes() {
+    this.boxes.removeSuggestionBoxes();
+    this.boxes.addSuggestionBoxes();
+  }
+
   private async checkSpelling() {
     debug("Removing existing suggestion boxes");
     this.boxes.removeSuggestionBoxes();
@@ -93,7 +98,6 @@ export class QuillLanguageTool {
 
     if (json && json.matches) {
       this.matches = json.matches;
-      console.log(this.matches);
 
       debug("Adding suggestion boxes");
       this.boxes.addSuggestionBoxes();
