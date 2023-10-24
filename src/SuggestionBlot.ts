@@ -26,6 +26,16 @@ export default function createSuggestionBlotForQuillInstance(Quill: any) {
       return node;
     }
 
+    // Method to update the blot attributes, like offset and length
+    setAttributes(attrs: {offset?: number, length?: number}) {
+      if (attrs.offset !== undefined) {
+        this.domNode.setAttribute("data-offset", attrs.offset.toString());
+      }
+      if (attrs.length !== undefined) {
+        this.domNode.setAttribute("data-length", attrs.length.toString());
+      }
+    }
+
     optimize() {}
   };
 }

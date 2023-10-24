@@ -93,6 +93,7 @@ export class QuillLanguageTool {
 
     if (json && json.matches) {
       this.matches = json.matches;
+      console.log(this.matches);
 
       debug("Adding suggestion boxes");
       this.boxes.addSuggestionBoxes();
