@@ -57,6 +57,23 @@ export default class PopupManager {
     this.createSuggestionPopup(rule, suggestion);
   }
 
+  private updateOffsets(replacementLength: number, originalLength: number, startOffset: number) {
+    const diff = replacementLength - originalLength;
+
+    this.parent.matches = this.parent.matches.filter((match) => {
+      if (match.offset === startOffset) {
+        return false;
+      }
+      if (match.offset > startOffset) {
+        match.offset += diff;
+      }
+      return true;
+    });
+
+    this.parent.reloadBoxes();
+  }
+
+
   private createSuggestionPopup(match: MatchesEntity, suggestion: HTMLElement) {
     if (this.openPopup) {
       this.closePopup();
@@ -70,6 +87,8 @@ export default class PopupManager {
       this.parent.quill.insertText(match.offset, replacement);
       // @ts-ignore
       this.parent.quill.setSelection(match.offset + replacement.length);
+
+      this.updateOffsets(replacement.length, match.length, match.offset);
 
       this.closePopup();
     };

@@ -78,6 +78,11 @@ export class QuillLanguageTool {
     }, this.params.cooldownTime);
   }
 
+  public async reloadBoxes() {
+    this.boxes.removeSuggestionBoxes();
+    this.boxes.addSuggestionBoxes();
+  }
+
   private async checkSpelling() {
     debug("Removing existing suggestion boxes");
     this.boxes.removeSuggestionBoxes();
