@@ -10,7 +10,7 @@ import { QuillLanguageTool } from ".";
  * @returns Cleaned text
  */
 export function getCleanedHtml(html: string) {
-  return html.replace(/<quill-lt-match .*>(.*)?<\/quill-lt-match>/g, "$1");
+  return html.replace(/<quill-lt-match .+?>(.*?)<\/quill-lt-match>/g, "$1");
 }
 
 /**
